@@ -1,0 +1,64 @@
+# 4AI3 Assignment 1
+# Nicolas Jao
+# 400450151
+
+import pandas as pd
+import numpy as np
+from sklearn.linear_model import LogisticRegression
+from sklearn.preprocessing import StandardScaler
+from sklearn.model_selection import train_test_split
+
+# Section 4
+# 1
+df = pd.read_csv("./titanic/train.csv")
+
+# 2
+df['Sex'] = df['Sex'].map({'female': 1, 'male': 0})
+
+# 3
+df.info()
+mean = df['Age'].mean()
+df['Age'] = df['Age'].fillna(mean)
+
+# 4
+df['UpperClass'] = df['Pclass'].apply(lambda x: 1 if x == 1 else 0)
+df['MiddleClass'] = df['Pclass'].apply(lambda x: 1 if x == 2 else 0)
+df['LowerClass'] = df['Pclass'].apply(lambda x: 1 if x == 3 else 0)
+
+# 5
+X = df[['Sex', 'Age', 'UpperClass', 'MiddleClass', 'LowerClass']]
+
+# 6
+y = df['Survived']
+
+# 7
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
+X_train = X_train.to_numpy()
+X_test = X_test.to_numpy()
+
+# 8
+scaler = StandardScaler()
+X_train_scaled = scaler.fit_transform(X_train)
+X_test_scaled = scaler.transform(X_test)
+
+# 9
+NicolasJaoModel = LogisticRegression()
+NicolasJaoModel.fit(X_train_scaled, y_train)
+
+# 10
+score_test = NicolasJaoModel.score(X_test_scaled, y_test)
+print(score_test)
+
+# 11
+Jack = np.array([0.0, 20.0, 0.0, 0.0, 1.0])
+Rose = np.array([1.0, 17.0, 1.0, 0.0, 0.0])
+Fabrizio = np.array([0.0, 22.0, 0.0, 0.0, 1.0])
+NicolasJao = np.array([0.0, 22.0, 0.0, 1.0, 0.0])
+fictional_passengers = np.array([Jack, Rose, Fabrizio, NicolasJao])
+fictional_passengers_scaled = scaler.transform(fictional_passengers)
+
+# 12
+print(NicolasJaoModel.predict(fictional_passengers_scaled))
+
+# When I ran it I got [0 1 0 0]. My model doesn't think I will survive... :(
+# I think it's because I'm male, and most males didn't survive since they protected women and children

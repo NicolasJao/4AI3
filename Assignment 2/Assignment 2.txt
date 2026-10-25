@@ -1,0 +1,17 @@
+# Step 10 and 11
+best_k = 1
+best_score = 0
+for k in range(1, len(X_train) + 1):
+    NicolasJaoModel = KNeighborsClassifier(n_neighbors=k)
+    NicolasJaoModel.fit(X_train, y_train)
+    score = NicolasJaoModel.score(X_test, y_test)
+    if score > best_score:
+        best_score = score
+        best_k = k
+print(best_k)
+print(best_score)
+final_model = KNeighborsClassifier(n_neighbors=best_k)
+final_model.fit(X_train, y_train)
+print(final_model.score(X_test, y_test)) # redundant answer checking
+
+# rest of the code is in the python file

@@ -1,1 +1,3 @@
-My work for the SMRTTECH 4AI3 course (McMaster BTech Automation)
+# Artificial Intelligence and Machine Learning
+
+SMRTTECH 4AI3 - L01
